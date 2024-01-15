@@ -1,56 +1,104 @@
 # Fyle Backend Challenge
 
-## Who is this for?
+## Introduction
 
-This challenge is meant for candidates who wish to intern at Fyle and work with our engineering team. You should be able to commit to at least 6 months of dedicated time for internship.
+This project is part of the Fyle Backend Challenge and is designed for candidates who wish to intern at Fyle. It involves writing a backend service for a classroom management system.
 
-## Why work at Fyle?
+## Getting Started
 
-Fyle is a fast-growing Expense Management SaaS product. We are ~40 strong engineering team at the moment. 
+### Prerequisites
 
-We are an extremely transparent organization. Check out our [careers page](https://careers.fylehq.com) that will give you a glimpse of what it is like to work at Fyle. Also, check out our Glassdoor reviews [here](https://www.glassdoor.co.in/Reviews/Fyle-Reviews-E1723235.htm). You can read stories from our teammates [here](https://stories.fylehq.com).
+- Python 3.8
+- Virtualenv
+- Docker (optional, for containerization)
 
+### Installation
 
-## Challenge outline
+1. Fork and clone the repository:
 
-This challenge involves writing a backend service for a classroom. The challenge is described in detail [here](./Application.md)
-
-
-## What happens next?
-
-You will hear back within 48 hours from us via email. 
-
-
-## Installation
-
-1. Fork this repository to your github account
-2. Clone the forked repository and proceed with steps mentioned below
-
-### Install requirements
-
-```
+```bash
+git clone https://github.com/Supreethsk05/fyle-interview-intern-backend.git
+cd fyle-interview-intern-backend
+Create and activate a virtual environment:
+bash
+Copy code
 virtualenv env --python=python3.8
 source env/bin/activate
+Install the requirements:
+bash
+Copy code
 pip install -r requirements.txt
-```
-### Reset DB
+Database Setup
+Reset and upgrade the database using Flask-Migrate:
 
-```
+bash
+Copy code
 export FLASK_APP=core/server.py
-rm core/store.sqlite3
+rm -f core/store.sqlite3
 flask db upgrade -d core/migrations/
-```
-### Start Server
+Running the Server
+Start the server using the provided script:
 
-```
+bash
+Copy code
 bash run.sh
-```
-### Run Tests
+Running Tests
+Run tests and generate a coverage report:
 
-```
+bash
+Copy code
 pytest -vvv -s tests/
+To view the test coverage report:
 
-# for test coverage report
-# pytest --cov
-# open htmlcov/index.html
-```
+bash
+Copy code
+pytest --cov
+open htmlcov/index.html
+Dockerization (Optional)
+To containerize the application using Docker, follow these steps:
+
+Create a Dockerfile in the project root:
+Dockerfile
+Copy code
+# Use an official Python runtime as a parent image
+FROM python:3.8
+
+# Set the working directory in the container
+WORKDIR /usr/src/app
+
+# Copy the current directory contents into the container at /usr/src/app
+COPY . .
+
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Make port 5000 available to the world outside this container
+EXPOSE 5000
+
+# Define environment variable
+ENV FLASK_APP=core/server.py
+
+# Run run.sh when the container launches
+CMD ["bash", "run.sh"]
+Create a docker-compose.yml file:
+yaml
+Copy code
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/usr/src/app
+    environment:
+      - FLASK_APP=core/server.py
+Build and run the application using Docker Compose:
+bash
+Copy code
+docker-compose up --build
+This will start the Flask server within a Docker container, accessible at http://localhost:5000.
+
+Additional Information
+For more detailed instructions, troubleshooting, and additional functionalities, refer to the documentation provided in Application.md.
+If you encounter any issues or have questions, please reach out via the email provided or create an issue in the GitHub repository.
