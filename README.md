@@ -19,7 +19,8 @@ This project is part of the Fyle Backend Challenge and is designed for candidate
 ```bash
 git clone https://github.com/Supreethsk05/fyle-interview-intern-backend.git
 cd fyle-interview-intern-backend
-
+```
+### Installation
 2.
 virtualenv env --python=python3.8
 source env/bin/activate
