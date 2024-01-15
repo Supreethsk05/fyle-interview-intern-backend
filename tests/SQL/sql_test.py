@@ -52,7 +52,11 @@ def create_n_graded_assignments_for_teacher(number: int = 0, teacher_id: int = 1
 
 def test_get_assignments_in_various_states():
     """Test to get assignments in various states"""
-
+    assignments = Assignment.query.all()
+    for assignment in assignments:
+      print(assignment)
+    
+    Assignment.query.filter_by(id=1).update({"state": AssignmentStateEnum.SUBMITTED, "grade": None})
     # Define the expected result before any changes
     expected_result = [('DRAFT', 2), ('GRADED', 2), ('SUBMITTED', 2)]
 
@@ -83,10 +87,14 @@ def test_get_assignments_in_various_states():
     for itr, result in enumerate(expected_result):
         assert result[0] == sql_result[itr][0]
         assert result[1] == sql_result[itr][1]
+        
+    
 
 
 def test_get_grade_A_assignments_for_teacher_with_max_grading():
     """Test to get count of grade A assignments for teacher which has graded maximum assignments"""
+   
+
 
     # Read the SQL query from a file
     with open('tests/SQL/count_grade_A_assignments_by_teacher_with_max_grading.sql', encoding='utf8') as fo:
@@ -105,3 +113,8 @@ def test_get_grade_A_assignments_for_teacher_with_max_grading():
     # Execute the SQL query again and check if the count matches the newly created assignments
     sql_result = db.session.execute(text(sql)).fetchall()
     assert grade_a_count_2 == sql_result[0][0]
+    remove_assignmet_Test()
+    
+def remove_assignmet_Test():
+    Assignment.query.filter(Assignment.id > 6).delete()
+    db.session.commit()
