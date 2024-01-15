@@ -55,7 +55,7 @@ pytest -vvv -s tests/
 # open htmlcov/index.html
 
 ```
-##index.html give report 
+## index.html will give report 
 
 ### Docker 
 
