@@ -41,6 +41,6 @@ pytest -vvv -s tests/
 
 ```
 docker-compose build
-docker-compose-up
+docker-compose up
 ```
 this will run the app on port 5001 which is communicating with container
