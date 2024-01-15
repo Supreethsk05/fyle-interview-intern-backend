@@ -1,5 +1,6 @@
 from core.models.assignments import AssignmentStateEnum, GradeEnum
-
+from core.models.teachers import Teacher
+import json
 
 def test_get_assignments(client, h_principal):
     response = client.get(
@@ -60,3 +61,16 @@ def test_regrade_assignment(client, h_principal):
 
     assert response.json['data']['state'] == AssignmentStateEnum.GRADED.value
     assert response.json['data']['grade'] == GradeEnum.B
+
+def test_list_teachers_by_principal(client,h_principal):
+    response = client.get('/principal/teachers', headers=h_principal)
+
+    assert response.status_code == 200
+    data = json.loads(response.data)
+
+    assert 'data' in data
+    assert isinstance(data['data'], list)
+
+    assert len(data['data']) == 2
+    assert data['data'][0]['id'] == 1
+    assert data['data'][1]['id'] == 2
